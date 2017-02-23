@@ -30,13 +30,13 @@ SUBDIRS := CrossSectionMatrix #ADD_NEW_SUBDIR ... do not remove this comment fro
 .phony: all clean
 
 all:
-	@for i in $(SUBDIRS); do ( echo "" && echo "Compiling $$i..." && cd $(LARLITE_USERDEVDIR)/CovarianceMatrix/$$i && $(MAKE) ) || exit $$?; done
+	@for i in $(SUBDIRS); do ( echo "" && echo "Compiling $$i..." && cd $(LARLITE_USERDEVDIR)/TruthBasedMatrices/$$i && $(MAKE) ) || exit $$?; done
 #####################################################################################
 #
 # CLEANs...
 #
 clean:
-	@for i in $(SUBDIRS); do ( echo "" && echo "Cleaning $$i..." && cd $(LARLITE_USERDEVDIR)/CovarianceMatrix/$$i && $(MAKE) clean && rm -f $(LARLITE_LIBDIR)/$$i.* ) || exit $$?; done
+	@for i in $(SUBDIRS); do ( echo "" && echo "Cleaning $$i..." && cd $(LARLITE_USERDEVDIR)/TruthBasedMatrices/$$i && $(MAKE) clean && rm -f $(LARLITE_LIBDIR)/$$i.* ) || exit $$?; done
 
 #####################################################################################
 #
@@ -44,13 +44,13 @@ clean:
 #
 doxygen:
 	@echo 'dOxygenising your code...'
-	@mkdir -p $(LARLITE_USERDEVDIR)/CovarianceMatrix/doc/dOxygenMyProject
-	@doxygen $(LARLITE_USERDEVDIR)/CovarianceMatrix/doc/doxygenMyProject.script
+	@mkdir -p $(LARLITE_USERDEVDIR)/TruthBasedMatrices/doc/dOxygenMyProject
+	@doxygen $(LARLITE_USERDEVDIR)/TruthBasedMatrices/doc/doxygenMyProject.script
 
 doxygen+:
 	@echo 'dOxygenising MyProject + local-ROOT...'
-	@mkdir -p $(LARLITE_USERDEVDIR)/CovarianceMatrix/doc/dOxygenMyProject+
-	@doxygen $(LARLITE_USERDEVDIR)/CovarianceMatrix/doc/doxygenMyProject+.script
+	@mkdir -p $(LARLITE_USERDEVDIR)/TruthBasedMatrices/doc/dOxygenMyProject+
+	@doxygen $(LARLITE_USERDEVDIR)/TruthBasedMatrices/doc/doxygenMyProject+.script
 #
 #####################################################################################
 #EOF

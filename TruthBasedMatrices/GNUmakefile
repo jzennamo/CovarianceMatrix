@@ -3,8 +3,8 @@
 #
 
 # specific names for this package
-DICT  = CovarianceMatrix_CrossSectionMatrixDict
-SHLIB = libCovarianceMatrix_CrossSectionMatrix.so
+DICT  = TruthBasedMatrices_CrossSectionMatrixDict
+SHLIB = libTruthBasedMatrices_CrossSectionMatrix.so
 SOURCES = $(filter-out $(DICT).cxx, $(wildcard *.cxx))
 FMWK_HEADERS = LinkDef.h $(DICT).h
 HEADERS = $(filter-out $(FMWK_HEADERS), $(wildcard *.h))
