@@ -12,9 +12,11 @@ namespace larlite {
     weight_nue  = new TH1D("nue_Weights",  "", 100, -3, 3);
     weight_numu = new TH1D("numu_Weights", "", 100, -3, 3);
 
+    //True energy distribution of the events
     Enu_nue =  new TH1D("Enu_nue" , "", 20, 0.05, 1.5);
     Enu_numu = new TH1D("Enu_numu", "", 20, 0.05, 1.5);
 
+    // Checks the weights as a function of energy, range can get fixed once the weights start making sense
     weights_v_energy_numu = new TH2D("weights_v_energy_numu", "", 20, 0.05, 1.5, 200, -100, 100);
     
     // Covariance Matrix
@@ -32,7 +34,8 @@ namespace larlite {
     //   This is a hack-y hack to get it to work quickly 
     syst_Enu_nue.resize(5000);
     syst_Enu_numu.resize(5000);
-    
+ 
+    // The energy distribution for each sysetmatic variation, labeled by universe number 
     for(int i = 0; i < 5000; i++){
       
       syst_Enu_nue[i] =  new TH1D(Form("Enu_nue_Uni%d",i+1) , "", 20, 0.05, 1.5);
@@ -53,37 +56,47 @@ namespace larlite {
 
     std::vector< double > weights;
 
-    // Iterate through all the events in our 
+    // Iterate through all the events we have
     for(auto event : *mcEvent_v){
+
+      /// Grab the weights assoiciated to that event, but 
       auto mcWeight_v = storage->get_data<event_mceventweight>("eventweight")->at(0);
       auto mcWeight = mcWeight_v.GetWeights();
       
+      // Need to iterate through all the weights because
+      //   there are many "knobs" that get turned.
+      //   Specific knobs can be selected by string name
+      //   this is the "first" element of the mcWeight[i] 
+      //   map. The second is the vector of weights
       for(auto const& it : mcWeight){     
+	//Currently just selecting one weight by w
 	if(it.first == "piplussplines_PrimaryHadronSplines"){
 	  weights = it.second; 
 	}
       }
       //// Weights been got. 
 
-      
+      // OK, let's start looking at the neutrino interaction
       auto const& nu = event.GetNeutrino().Nu();
       
-      // Electrons 
+      // Electron Neutrinos
       if(nu.PdgCode() == 12){
-	
+	//Neutrino Energy
 	Enu_nue->Fill(nu.Momentum(0).E());
 
+	//Fill weights
 	for(int i = 0; i < weights.size(); i++){
 	  weight_nue->Fill(weights[i]);
 	  syst_Enu_nue[i]->Fill(nu.Momentum(0).E(),weights[i]);	  
 	} 				
       }
       
-      // Muons 
+      // Muon Neutrinos 
       if(nu.PdgCode() == 14){
-
+	//Neutrino Energy
 	Enu_numu->Fill(nu.Momentum(0).E());
 
+	//Fill weights
 	for(int i = 0; i < weights.size(); i++){
 	  weight_numu->Fill(weights[i]);
 	  syst_Enu_numu[i]->Fill(nu.Momentum(0).E(),weights[i]);	  
@@ -91,11 +104,7 @@ namespace larlite {
 	} 				
       }
     }
-
-    
-
-
-    
+     
     return true;
   }
 
