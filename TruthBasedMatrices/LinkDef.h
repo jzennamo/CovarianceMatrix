@@ -10,6 +10,8 @@
 #pragma link off all functions;
 
 #pragma link C++ class larlite::MatrixComposition+;
+#pragma link C++ class larlite::MatrixComposition::EventSample+;
+#pragma link C++ class vector<larlite::MatrixComposition::EventSample>+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
 
